@@ -1,0 +1,6 @@
+1. Establish server & middleware in index.js
+    set up api routes that call upon a router (ie. app.use("/api/users", usersRotuer))
+
+2. Set up routes: establish paths & set out logic
+
+3. Create models: new mongoose.schema + mongoose.model("", Schema)
