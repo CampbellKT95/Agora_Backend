@@ -60,7 +60,8 @@ exports.router.post("/register", function (req, res) { return __awaiter(void 0, 
                 newUser = new user_js_1.default({
                     username: req.body.username,
                     email: req.body.email,
-                    password: hashedPassword
+                    password: hashedPassword,
+                    description: req.body.description
                 });
                 return [4 /*yield*/, newUser.save()];
             case 3:
@@ -69,7 +70,7 @@ exports.router.post("/register", function (req, res) { return __awaiter(void 0, 
                 return [3 /*break*/, 5];
             case 4:
                 err_1 = _a.sent();
-                console.log(err_1);
+                res.status(500).json(err_1);
                 return [3 /*break*/, 5];
             case 5: return [2 /*return*/];
         }
@@ -94,7 +95,7 @@ exports.router.post("/login", function (req, res) { return __awaiter(void 0, voi
                 return [3 /*break*/, 4];
             case 3:
                 err_2 = _a.sent();
-                console.log(err_2);
+                res.status(500).json(err_2);
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

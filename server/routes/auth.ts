@@ -15,14 +15,15 @@ router.post("/register", async (req, res) => {
         const newUser = new User({
             username: req.body.username,
             email: req.body.email,
-            password: hashedPassword
+            password: hashedPassword,
+            description: req.body.description
         })
 
         const user = await newUser.save();
         res.status(200).json(user);
 
     } catch (err) {
-        console.log(err);
+        res.status(500).json(err)
     }
 });
 
@@ -37,6 +38,6 @@ router.post("/login", async (req, res) => {
         
         res.status(200).json(user);
     } catch (err) {
-        console.log(err)
+        res.status(500).json(err)
     }
 })
