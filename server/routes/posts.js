@@ -174,7 +174,7 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
     });
 }); });
 //fetch timeline posts
-exports.router.get("/timeline", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.router.get("/timeline/all", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var postArray, currentUser, userPosts, friendPosts, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -190,7 +190,7 @@ exports.router.get("/timeline", function (req, res) { return __awaiter(void 0, v
             case 3:
                 userPosts = _a.sent();
                 return [4 /*yield*/, Promise.all(currentUser.following.map(function (friendId) {
-                        post_1.default.find({ userId: friendId });
+                        return post_1.default.find({ userId: friendId });
                     }))];
             case 4:
                 friendPosts = _a.sent();
