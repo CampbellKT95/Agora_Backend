@@ -35,6 +35,17 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -51,7 +62,6 @@ exports.router.put("/:id", function (req, res) { return __awaiter(void 0, void 0
         switch (_b.label) {
             case 0:
                 if (!(req.body.userId === req.params.id || req.body.isAdmin)) return [3 /*break*/, 9];
-                console.log("ids match");
                 if (!req.body.password) return [3 /*break*/, 5];
                 _b.label = 1;
             case 1:
@@ -85,6 +95,130 @@ exports.router.put("/:id", function (req, res) { return __awaiter(void 0, void 0
     });
 }); });
 //delete user
+exports.router.delete("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, err_3;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!(req.body.userId === req.params.id || req.body.isAdmin)) return [3 /*break*/, 5];
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, user_1.default.findByIdAndDelete({ _id: req.params.id })];
+            case 2:
+                user = _a.sent();
+                res.status(200).json("Account deleted successfully");
+                return [3 /*break*/, 4];
+            case 3:
+                err_3 = _a.sent();
+                res.status(500).json(err_3);
+                return [3 /*break*/, 4];
+            case 4: return [3 /*break*/, 6];
+            case 5: return [2 /*return*/, res.status(403).json("You cannot delete another's account")];
+            case 6: return [2 /*return*/];
+        }
+    });
+}); });
 //fetch user
+exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, _a, password, updatedAt, others, err_4;
+    return __generator(this, function (_b) {
+        switch (_b.label) {
+            case 0:
+                _b.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, user_1.default.findById(req.params.id)];
+            case 1:
+                user = _b.sent();
+                _a = user._doc, password = _a.password, updatedAt = _a.updatedAt, others = __rest(_a, ["password", "updatedAt"]);
+                res.status(200).json(others);
+                return [3 /*break*/, 3];
+            case 2:
+                err_4 = _b.sent();
+                res.status(500).json(err_4);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 //follow user
+exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, currentUser, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!(req.body.userId !== req.params.id)) return [3 /*break*/, 10];
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 8, , 9]);
+                return [4 /*yield*/, user_1.default.findById(req.params.id)];
+            case 2:
+                user = _a.sent();
+                return [4 /*yield*/, user_1.default.findById(req.body.userId)];
+            case 3:
+                currentUser = _a.sent();
+                if (!!user.followers.includes(req.body.userId)) return [3 /*break*/, 6];
+                return [4 /*yield*/, user.updateOne({ $push: { followers: req.body.userId } })];
+            case 4:
+                _a.sent();
+                return [4 /*yield*/, currentUser.updateOne({ $push: { following: req.params.id } })];
+            case 5:
+                _a.sent();
+                res.send(200).json("User followed");
+                return [3 /*break*/, 7];
+            case 6:
+                res.status(403).json("You are already following this person");
+                _a.label = 7;
+            case 7: return [3 /*break*/, 9];
+            case 8:
+                err_5 = _a.sent();
+                res.status(500).json(err_5);
+                return [3 /*break*/, 9];
+            case 9: return [3 /*break*/, 11];
+            case 10:
+                res.status(403).json("Cannot follow self");
+                _a.label = 11;
+            case 11: return [2 /*return*/];
+        }
+    });
+}); });
 //unfollow user
+exports.router.put("/:id/unfollow", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var user, currentUser, err_6;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                if (!(req.body.userId !== req.params.id)) return [3 /*break*/, 10];
+                _a.label = 1;
+            case 1:
+                _a.trys.push([1, 8, , 9]);
+                return [4 /*yield*/, user_1.default.findById(req.params.id)];
+            case 2:
+                user = _a.sent();
+                return [4 /*yield*/, user_1.default.findById(req.body.userId)];
+            case 3:
+                currentUser = _a.sent();
+                if (!user.followers.includes(req.body.userId)) return [3 /*break*/, 6];
+                return [4 /*yield*/, user.updateOne({ $pull: { followers: req.body.userId } })];
+            case 4:
+                _a.sent();
+                return [4 /*yield*/, currentUser.updateOne({ $pull: { following: req.params.id } })];
+            case 5:
+                _a.sent();
+                res.send(200).json("User unfollowed");
+                return [3 /*break*/, 7];
+            case 6:
+                res.status(403).json("You are already don't follow this person");
+                _a.label = 7;
+            case 7: return [3 /*break*/, 9];
+            case 8:
+                err_6 = _a.sent();
+                res.status(500).json(err_6);
+                return [3 /*break*/, 9];
+            case 9: return [3 /*break*/, 11];
+            case 10:
+                res.status(403).json("Cannot follow self");
+                _a.label = 11;
+            case 11: return [2 /*return*/];
+        }
+    });
+}); });

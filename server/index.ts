@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 
 import {router as userRouter} from "./routes/users.js";
 import {router as authRouter} from "./routes/auth.js";
+import {router as postRouter} from "./routes/posts.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(morgan("common"));
 
 //routes
 app.use("/api/users", userRouter);
-app.use("/api/auth", authRouter)
+app.use("/api/auth", authRouter);
+app.use("/api/posts", postRouter);
 
 app.listen(PORT, () => console.log("Server running"))
