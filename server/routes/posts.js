@@ -186,13 +186,9 @@ exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(v
                 return [4 /*yield*/, user_1.default.findById(req.params.userId)];
             case 2:
                 currentUser = _a.sent();
-                //
-                console.log(currentUser);
                 return [4 /*yield*/, post_1.default.find({ userId: currentUser._id })];
             case 3:
                 userPosts = _a.sent();
-                //
-                console.log(userPosts);
                 return [4 /*yield*/, Promise.all(currentUser.following.map(function (friendId) {
                         return post_1.default.find({ userId: friendId });
                     }))];

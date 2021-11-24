@@ -85,16 +85,8 @@ router.get("/timeline/:userId", async (req, res) => {
 
     try {
         const currentUser = await User.findById(req.params.userId);
-        
-        //
-        console.log(currentUser)
-        //
 
         const userPosts = await Post.find({userId: currentUser._id});
-
-        //
-        console.log(userPosts)
-        //
 
         //need to use promise.all due to using map
         const friendPosts = await Promise.all(

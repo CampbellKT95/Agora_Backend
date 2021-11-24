@@ -1,4 +1,5 @@
 import express from "express"
+import { findConfigFile } from "typescript";
 import User from "../models/user.js";
 
 const bcrypt = require("bcrypt");
@@ -9,21 +10,26 @@ export const router = express.Router();
 router.post("/register", async (req, res) => {
 
     try {
-        const salt = await bcrypt.genSalt(12);
+        const existingUser = await User.findOne({username: req.body.createUsername})
 
-        console.log("body", req.body)
+        if (existingUser) {
+            res.status(400).json({message: "username taken"})
+        } else {
+            const salt = await bcrypt.genSalt(12);
 
-        const hashedPassword = await bcrypt.hash(req.body.password, salt);
+            const hashedPassword = await bcrypt.hash(req.body.createPassword, salt);
 
-        const newUser = new User({
-            email: req.body.email,
-            password: hashedPassword,
-            description: req.body.description
-        })
+            const newUser = new User({
+                email: req.body.createEmail,
+                username: req.body.createUsername,
+                password: hashedPassword,
+            })
 
-        const user = await newUser.save();
-        res.status(200).json(user);
+            console.log("new user created", newUser)
 
+            const user = await newUser.save();
+            res.status(200).json(user);
+        }
     } catch (err) {
         res.status(500).json(err)
     }

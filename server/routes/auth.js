@@ -46,33 +46,40 @@ var bcrypt = require("bcrypt");
 exports.router = express_1.default.Router();
 //register user
 exports.router.post("/register", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var salt, hashedPassword, newUser, user, err_1;
+    var existingUser, salt, hashedPassword, newUser, user, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 4, , 5]);
-                return [4 /*yield*/, bcrypt.genSalt(12)];
+                _a.trys.push([0, 7, , 8]);
+                return [4 /*yield*/, user_js_1.default.findOne({ username: req.body.createUsername })];
             case 1:
+                existingUser = _a.sent();
+                if (!existingUser) return [3 /*break*/, 2];
+                res.status(400).json({ message: "username taken" });
+                return [3 /*break*/, 6];
+            case 2: return [4 /*yield*/, bcrypt.genSalt(12)];
+            case 3:
                 salt = _a.sent();
-                console.log("body", req.body);
-                return [4 /*yield*/, bcrypt.hash(req.body.password, salt)];
-            case 2:
+                return [4 /*yield*/, bcrypt.hash(req.body.createPassword, salt)];
+            case 4:
                 hashedPassword = _a.sent();
                 newUser = new user_js_1.default({
-                    email: req.body.email,
+                    email: req.body.createEmail,
+                    username: req.body.createUsername,
                     password: hashedPassword,
-                    description: req.body.description
                 });
+                console.log("new user created", newUser);
                 return [4 /*yield*/, newUser.save()];
-            case 3:
+            case 5:
                 user = _a.sent();
                 res.status(200).json(user);
-                return [3 /*break*/, 5];
-            case 4:
+                _a.label = 6;
+            case 6: return [3 /*break*/, 8];
+            case 7:
                 err_1 = _a.sent();
                 res.status(500).json(err_1);
-                return [3 /*break*/, 5];
-            case 5: return [2 /*return*/];
+                return [3 /*break*/, 8];
+            case 8: return [2 /*return*/];
         }
     });
 }); });
