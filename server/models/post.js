@@ -9,16 +9,19 @@ var PostSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    description: {
+    title: {
         type: String,
         max: 500
     },
-    image: {
+    description: {
         type: String
     },
     likes: {
         type: Array,
         default: []
+    },
+    comments: {
+        type: [String]
     }
 }, { timestamps: true });
 var Post = mongoose_1.default.model("Post", PostSchema);
