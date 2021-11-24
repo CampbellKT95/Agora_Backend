@@ -126,7 +126,7 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, user_1.default.findById(req.params.id)];
+                return [4 /*yield*/, user_1.default.findById({ _id: req.params.id })];
             case 1:
                 user = _b.sent();
                 _a = user._doc, password = _a.password, updatedAt = _a.updatedAt, others = __rest(_a, ["password", "updatedAt"]);

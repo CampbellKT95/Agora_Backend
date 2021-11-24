@@ -54,11 +54,11 @@ exports.router.post("/register", function (req, res) { return __awaiter(void 0, 
                 return [4 /*yield*/, bcrypt.genSalt(12)];
             case 1:
                 salt = _a.sent();
+                console.log("body", req.body);
                 return [4 /*yield*/, bcrypt.hash(req.body.password, salt)];
             case 2:
                 hashedPassword = _a.sent();
                 newUser = new user_js_1.default({
-                    username: req.body.username,
                     email: req.body.email,
                     password: hashedPassword,
                     description: req.body.description

@@ -174,7 +174,7 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
     });
 }); });
 //fetch timeline posts
-exports.router.get("/timeline/all", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var postArray, currentUser, userPosts, friendPosts, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -183,18 +183,22 @@ exports.router.get("/timeline/all", function (req, res) { return __awaiter(void 
                 _a.label = 1;
             case 1:
                 _a.trys.push([1, 5, , 6]);
-                return [4 /*yield*/, user_1.default.findById(req.body.userId)];
+                return [4 /*yield*/, user_1.default.findById(req.params.userId)];
             case 2:
                 currentUser = _a.sent();
+                //
+                console.log(currentUser);
                 return [4 /*yield*/, post_1.default.find({ userId: currentUser._id })];
             case 3:
                 userPosts = _a.sent();
+                //
+                console.log(userPosts);
                 return [4 /*yield*/, Promise.all(currentUser.following.map(function (friendId) {
                         return post_1.default.find({ userId: friendId });
                     }))];
             case 4:
                 friendPosts = _a.sent();
-                res.json(userPosts.concat.apply(userPosts, friendPosts));
+                res.status(200).json(userPosts.concat.apply(userPosts, friendPosts));
                 return [3 /*break*/, 6];
             case 5:
                 err_6 = _a.sent();
