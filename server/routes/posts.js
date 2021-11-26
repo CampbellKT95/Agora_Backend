@@ -153,9 +153,32 @@ exports.router.put("/:id/like", function (req, res) { return __awaiter(void 0, v
         }
     });
 }); });
+//comment on a post
+exports.router.put("/:id/comment", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var post, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 3, , 4]);
+                return [4 /*yield*/, post_1.default.findById(req.params.id)];
+            case 1:
+                post = _a.sent();
+                return [4 /*yield*/, post.updateOne({ $push: { comments: req.body.comments } })];
+            case 2:
+                _a.sent();
+                res.status(200).json("Comment made");
+                return [3 /*break*/, 4];
+            case 3:
+                err_5 = _a.sent();
+                res.status(500).json(err_5);
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
+        }
+    });
+}); });
 //fetch post
 exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var post, err_5;
+    var post, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -166,8 +189,8 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
                 res.status(200).json(post);
                 return [3 /*break*/, 3];
             case 2:
-                err_5 = _a.sent();
-                res.status(500).json(err_5);
+                err_6 = _a.sent();
+                res.status(500).json(err_6);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
         }
@@ -175,7 +198,7 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
 }); });
 //fetch timeline posts
 exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var postArray, currentUser, userPosts, friendPosts, err_6;
+    var postArray, currentUser, userPosts, friendPosts, err_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -197,8 +220,8 @@ exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(v
                 res.status(200).json(userPosts.concat.apply(userPosts, friendPosts));
                 return [3 /*break*/, 6];
             case 5:
-                err_6 = _a.sent();
-                res.status(500).json(err_6);
+                err_7 = _a.sent();
+                res.status(500).json(err_7);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }
