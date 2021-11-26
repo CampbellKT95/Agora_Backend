@@ -163,7 +163,7 @@ exports.router.put("/:id/comment", function (req, res) { return __awaiter(void 0
                 return [4 /*yield*/, post_1.default.findById(req.params.id)];
             case 1:
                 post = _a.sent();
-                return [4 /*yield*/, post.updateOne({ $push: { comments: req.body.comments } })];
+                return [4 /*yield*/, post.updateOne({ $push: { comments: { author: req.body.author, comment: req.body.comment } } })];
             case 2:
                 _a.sent();
                 res.status(200).json("Comment made");

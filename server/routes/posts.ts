@@ -73,7 +73,8 @@ router.put("/:id/comment", async (req, res) => {
     try {
         const post = await Post.findById(req.params.id);
 
-        await post.updateOne({$push: {comments: req.body.comments}});
+        await post.updateOne({$push: {comments: {author: req.body.author, comment: req.body.comment}}});
+        
         res.status(200).json("Comment made");
 
     } catch (err) {

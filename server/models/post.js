@@ -20,9 +20,16 @@ var PostSchema = new mongoose_1.default.Schema({
         type: Array,
         default: []
     },
-    comments: {
-        type: [String]
-    }
+    comments: [{
+            author: {
+                type: String,
+                required: true
+            },
+            comment: {
+                type: String,
+                required: true
+            }
+        }]
 }, { timestamps: true });
 var Post = mongoose_1.default.model("Post", PostSchema);
 exports.default = Post;
