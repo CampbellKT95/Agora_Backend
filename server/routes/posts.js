@@ -105,6 +105,7 @@ exports.router.delete("/:id", function (req, res) { return __awaiter(void 0, voi
                 return [4 /*yield*/, post_1.default.findById(req.params.id)];
             case 1:
                 post = _a.sent();
+                console.log("body", req.body);
                 if (!(post.userId === req.body.userId)) return [3 /*break*/, 3];
                 return [4 /*yield*/, post.deleteOne()];
             case 2:
