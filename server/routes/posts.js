@@ -68,7 +68,7 @@ exports.router.post("/", function (req, res) { return __awaiter(void 0, void 0, 
     });
 }); });
 //update post
-exports.router.put("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.router.put("/:id/update", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var post, err_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -77,8 +77,8 @@ exports.router.put("/:id", function (req, res) { return __awaiter(void 0, void 0
                 return [4 /*yield*/, post_1.default.findById(req.params.id)];
             case 1:
                 post = _a.sent();
-                if (!(post.userId === req.body.userId)) return [3 /*break*/, 3];
-                return [4 /*yield*/, post.updateOne({ $set: req.body })];
+                if (!(post.userId === req.body.data.userId)) return [3 /*break*/, 3];
+                return [4 /*yield*/, post.updateOne({ $set: { content: req.body.data.content } })];
             case 2:
                 _a.sent();
                 res.status(200).json("Post updated");
@@ -96,7 +96,7 @@ exports.router.put("/:id", function (req, res) { return __awaiter(void 0, void 0
     });
 }); });
 //delete post
-exports.router.delete("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.router.delete("/:id/delete", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var post, err_3;
     return __generator(this, function (_a) {
         switch (_a.label) {
