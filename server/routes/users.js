@@ -82,7 +82,7 @@ exports.router.put("/:id", function (req, res) { return __awaiter(void 0, void 0
                 return [4 /*yield*/, user_1.default.findByIdAndUpdate(req.params.id, { $set: req.body })];
             case 6:
                 user = _b.sent();
-                res.status(200).json("Account updated");
+                res.status(200).json(user);
                 return [3 /*break*/, 8];
             case 7:
                 err_2 = _b.sent();
