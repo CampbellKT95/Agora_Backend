@@ -18,14 +18,6 @@ const UserSchema = new mongoose.Schema({
         required: true,
         min: 6
     },
-    profilePicture: {
-        type: String,
-        default: ""
-    },
-    coverPicture: {
-        type: String,
-        default: ""
-    },
     followers: {
         type: Array,
         default: []
@@ -40,7 +32,11 @@ const UserSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        max: 50
+        default: ""
+    },
+    languages: {
+        type: String,
+        default: ""
     }
 },
 {timestamps: true}

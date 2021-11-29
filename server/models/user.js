@@ -22,14 +22,6 @@ var UserSchema = new mongoose_1.default.Schema({
         required: true,
         min: 6
     },
-    profilePicture: {
-        type: String,
-        default: ""
-    },
-    coverPicture: {
-        type: String,
-        default: ""
-    },
     followers: {
         type: Array,
         default: []
@@ -44,7 +36,11 @@ var UserSchema = new mongoose_1.default.Schema({
     },
     description: {
         type: String,
-        max: 50
+        default: ""
+    },
+    languages: {
+        type: String,
+        default: ""
     }
 }, { timestamps: true });
 var User = mongoose_1.default.model("User", UserSchema);
