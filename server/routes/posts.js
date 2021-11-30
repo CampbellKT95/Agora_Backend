@@ -207,6 +207,9 @@ exports.router.get("/:userId/personal", function (req, res) { return __awaiter(v
                 return [4 /*yield*/, post_1.default.find({ userId: req.params.userId })];
             case 1:
                 desiredUserPosts = _a.sent();
+                desiredUserPosts.sort(function (a, b) {
+                    return b.createdAt - a.createdAt;
+                });
                 res.status(200).json(desiredUserPosts);
                 return [3 /*break*/, 3];
             case 2:
@@ -233,11 +236,15 @@ exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(v
                 return [4 /*yield*/, post_1.default.find({ userId: currentUser._id })];
             case 3:
                 userPosts = _a.sent();
+                userPosts.sort(function (a, b) {
+                    return b.createdAt - a.createdAt;
+                });
                 return [4 /*yield*/, Promise.all(currentUser.following.map(function (friendId) {
                         return post_1.default.find({ userId: friendId });
                     }))];
             case 4:
                 friendPosts = _a.sent();
+                friendPosts.sort(function (a, b) { return b.createdAt - a.createdAt; });
                 res.status(200).json(userPosts.concat.apply(userPosts, friendPosts));
                 return [3 /*break*/, 6];
             case 5:

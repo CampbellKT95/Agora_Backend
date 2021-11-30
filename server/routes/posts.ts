@@ -104,6 +104,11 @@ router.get("/:userId/personal", async (req: any, res) => {
     try {
         const desiredUserPosts = await Post.find({userId: req.params.userId});
 
+
+        desiredUserPosts.sort(function(a: any, b: any): any {
+            return b.createdAt - a.createdAt
+        })
+
         res.status(200).json(desiredUserPosts);
 
     } catch (err) {
@@ -120,12 +125,19 @@ router.get("/timeline/:userId", async (req, res) => {
 
         const userPosts = await Post.find({userId: currentUser._id});
 
+        userPosts.sort(function(a: any, b: any): any {
+            return b.createdAt - a.createdAt
+        })
+
         //need to use promise.all due to using map
         const friendPosts = await Promise.all(
             currentUser.following.map((friendId: string) => {
                 return Post.find({userId: friendId});
             })
         );
+
+        friendPosts.sort((a: any, b: any) => b.createdAt - a.createdAt)
+
         res.status(200).json(userPosts.concat(...friendPosts));
 
     } catch (err) {
