@@ -142,7 +142,7 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
 }); });
 //fetch user by username
 exports.router.get("/find/:username", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var soughtUser, err_5;
+    var soughtUser, userInfo, err_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -150,9 +150,11 @@ exports.router.get("/find/:username", function (req, res) { return __awaiter(voi
                 return [4 /*yield*/, user_1.default.find({ username: req.params.username })];
             case 1:
                 soughtUser = _a.sent();
-                console.log("soughtUser", soughtUser);
-                // const {password, updatedAt, ...others} = soughtUser._doc;
-                res.status(200).json(soughtUser);
+                userInfo = [{
+                        soughtUsername: soughtUser[0].username,
+                        soughtId: soughtUser[0]._id
+                    }];
+                res.status(200).json(userInfo);
                 return [3 /*break*/, 3];
             case 2:
                 err_5 = _a.sent();

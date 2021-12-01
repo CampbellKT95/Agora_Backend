@@ -1,4 +1,5 @@
 import express from "express"
+import { AnyArray } from "mongoose";
 const bcrypt = require("bcrypt");
 import User from "../models/user";
 export const router = express.Router();
@@ -59,11 +60,14 @@ router.get("/:id", async (req, res) => {
 //fetch user by username
 router.get("/find/:username", async (req, res) => {
     try {
-        const soughtUser = await User.find({username: req.params.username});
-        console.log("soughtUser", soughtUser)
-        // const {password, updatedAt, ...others} = soughtUser._doc;
+        const soughtUser: any = await User.find({username: req.params.username});
+        
+        const userInfo = [{
+            soughtUsername: soughtUser[0].username,
+            soughtId: soughtUser[0]._id
+        }]
 
-        res.status(200).json(soughtUser);
+        res.status(200).json(userInfo);
 
     } catch (err) {
         res.status(500).json(err);
