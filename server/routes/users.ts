@@ -43,7 +43,7 @@ router.delete("/:id", async (req, res) => {
     }
 });
 
-//fetch user
+//fetch user by id
 router.get("/:id", async (req, res) => {
     try {
         const user = await User.findById({_id: req.params.id});
@@ -54,7 +54,21 @@ router.get("/:id", async (req, res) => {
     } catch (err) {
         res.status(500).json(err);
     }
-})
+});
+
+//fetch user by username
+router.get("/find/:username", async (req, res) => {
+    try {
+        const soughtUser = await User.find({username: req.params.username});
+        console.log("soughtUser", soughtUser)
+        // const {password, updatedAt, ...others} = soughtUser._doc;
+
+        res.status(200).json(soughtUser);
+
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
 
 //follow user
 router.put("/:id/follow", async (req, res) => {

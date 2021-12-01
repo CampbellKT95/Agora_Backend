@@ -119,7 +119,7 @@ exports.router.delete("/:id", function (req, res) { return __awaiter(void 0, voi
         }
     });
 }); });
-//fetch user
+//fetch user by id
 exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, _a, password, updatedAt, others, err_4;
     return __generator(this, function (_b) {
@@ -140,9 +140,31 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
         }
     });
 }); });
+//fetch user by username
+exports.router.get("/find/:username", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var soughtUser, err_5;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, user_1.default.find({ username: req.params.username })];
+            case 1:
+                soughtUser = _a.sent();
+                console.log("soughtUser", soughtUser);
+                // const {password, updatedAt, ...others} = soughtUser._doc;
+                res.status(200).json(soughtUser);
+                return [3 /*break*/, 3];
+            case 2:
+                err_5 = _a.sent();
+                res.status(500).json(err_5);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 //follow user
 exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, currentUser, err_5;
+    var user, currentUser, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -170,8 +192,8 @@ exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0,
                 _a.label = 7;
             case 7: return [3 /*break*/, 9];
             case 8:
-                err_5 = _a.sent();
-                res.status(500).json(err_5);
+                err_6 = _a.sent();
+                res.status(500).json(err_6);
                 return [3 /*break*/, 9];
             case 9: return [3 /*break*/, 11];
             case 10:
@@ -183,7 +205,7 @@ exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0,
 }); });
 //unfollow user
 exports.router.put("/:id/unfollow", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, currentUser, err_6;
+    var user, currentUser, err_7;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -211,8 +233,8 @@ exports.router.put("/:id/unfollow", function (req, res) { return __awaiter(void 
                 _a.label = 7;
             case 7: return [3 /*break*/, 9];
             case 8:
-                err_6 = _a.sent();
-                res.status(500).json(err_6);
+                err_7 = _a.sent();
+                res.status(500).json(err_7);
                 return [3 /*break*/, 9];
             case 9: return [3 /*break*/, 11];
             case 10:
