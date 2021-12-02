@@ -220,9 +220,32 @@ exports.router.get("/:userId/personal", function (req, res) { return __awaiter(v
         }
     });
 }); });
+//fetch trending posts
+exports.router.get("/all/trending", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var trendingPosts, err_8;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0:
+                _a.trys.push([0, 2, , 3]);
+                return [4 /*yield*/, post_1.default.find()];
+            case 1:
+                trendingPosts = _a.sent();
+                trendingPosts.sort(function (a, b) {
+                    return b.likes.length - a.likes.length;
+                });
+                res.status(200).json(trendingPosts);
+                return [3 /*break*/, 3];
+            case 2:
+                err_8 = _a.sent();
+                res.status(500).json(err_8);
+                return [3 /*break*/, 3];
+            case 3: return [2 /*return*/];
+        }
+    });
+}); });
 //fetch timeline posts
 exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var postArray, currentUser, userPosts, friendPosts, err_8;
+    var postArray, currentUser, userPosts, friendPosts, err_9;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -248,8 +271,8 @@ exports.router.get("/timeline/:userId", function (req, res) { return __awaiter(v
                 res.status(200).json(userPosts.concat.apply(userPosts, friendPosts));
                 return [3 /*break*/, 6];
             case 5:
-                err_8 = _a.sent();
-                res.status(500).json(err_8);
+                err_9 = _a.sent();
+                res.status(500).json(err_9);
                 return [3 /*break*/, 6];
             case 6: return [2 /*return*/];
         }

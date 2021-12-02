@@ -116,6 +116,22 @@ router.get("/:userId/personal", async (req: any, res) => {
     }
 });
 
+//fetch trending posts
+router.get("/all/trending", async (req: any, res) => {
+    try {
+        const trendingPosts = await Post.find();
+
+        trendingPosts.sort(function(a: any, b: any): any {
+            return b.likes.length - a.likes.length
+        })
+
+        res.status(200).json(trendingPosts);
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+});
+
 //fetch timeline posts
 router.get("/timeline/:userId", async (req, res) => {
     let postArray = [];
