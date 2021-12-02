@@ -186,7 +186,7 @@ exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0,
                 return [4 /*yield*/, currentUser.updateOne({ $push: { following: req.params.id } })];
             case 5:
                 _a.sent();
-                res.status(200).json("User followed");
+                res.status(200).json(user);
                 return [3 /*break*/, 9];
             case 6: return [4 /*yield*/, user.updateOne({ $pull: { followers: req.body.userId } })];
             case 7:
@@ -194,7 +194,7 @@ exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0,
                 return [4 /*yield*/, currentUser.updateOne({ $pull: { following: req.params.id } })];
             case 8:
                 _a.sent();
-                res.status(200).json("User unfollowed");
+                res.status(200).json(user);
                 _a.label = 9;
             case 9: return [3 /*break*/, 11];
             case 10:

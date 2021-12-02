@@ -84,13 +84,13 @@ router.put("/:id/follow", async (req, res) => {
                 await user.updateOne({$push: {followers: req.body.userId}});
                 await currentUser.updateOne({$push: {following: req.params.id}})
 
-                res.status(200).json("User followed");
+                res.status(200).json(user);
 
             } else {
                 await user.updateOne({$pull: {followers: req.body.userId}});
                 await currentUser.updateOne({$pull: {following: req.params.id}})
 
-                res.status(200).json("User unfollowed");
+                res.status(200).json(user);
 
             }
 
