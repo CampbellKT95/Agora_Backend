@@ -164,16 +164,15 @@ exports.router.get("/find/:username", function (req, res) { return __awaiter(voi
         }
     });
 }); });
-//follow user
 exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var user, currentUser, err_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                if (!(req.body.userId !== req.params.id)) return [3 /*break*/, 10];
+                if (!(req.body.userId !== req.params.id)) return [3 /*break*/, 12];
                 _a.label = 1;
             case 1:
-                _a.trys.push([1, 8, , 9]);
+                _a.trys.push([1, 10, , 11]);
                 return [4 /*yield*/, user_1.default.findById(req.params.id)];
             case 2:
                 user = _a.sent();
@@ -187,62 +186,46 @@ exports.router.put("/:id/follow", function (req, res) { return __awaiter(void 0,
                 return [4 /*yield*/, currentUser.updateOne({ $push: { following: req.params.id } })];
             case 5:
                 _a.sent();
-                res.send(200).json("User followed");
-                return [3 /*break*/, 7];
-            case 6:
-                res.status(403).json("You are already following this person");
-                _a.label = 7;
-            case 7: return [3 /*break*/, 9];
-            case 8:
-                err_6 = _a.sent();
-                res.status(500).json(err_6);
+                res.status(200).json("User followed");
                 return [3 /*break*/, 9];
+            case 6: return [4 /*yield*/, user.updateOne({ $pull: { followers: req.body.userId } })];
+            case 7:
+                _a.sent();
+                return [4 /*yield*/, currentUser.updateOne({ $pull: { following: req.params.id } })];
+            case 8:
+                _a.sent();
+                res.status(200).json("User unfollowed");
+                _a.label = 9;
             case 9: return [3 /*break*/, 11];
             case 10:
+                err_6 = _a.sent();
+                res.status(500).json(err_6);
+                return [3 /*break*/, 11];
+            case 11: return [3 /*break*/, 13];
+            case 12:
                 res.status(403).json("Cannot follow self");
-                _a.label = 11;
-            case 11: return [2 /*return*/];
+                _a.label = 13;
+            case 13: return [2 /*return*/];
         }
     });
 }); });
 //unfollow user
-exports.router.put("/:id/unfollow", function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, currentUser, err_7;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                if (!(req.body.userId !== req.params.id)) return [3 /*break*/, 10];
-                _a.label = 1;
-            case 1:
-                _a.trys.push([1, 8, , 9]);
-                return [4 /*yield*/, user_1.default.findById(req.params.id)];
-            case 2:
-                user = _a.sent();
-                return [4 /*yield*/, user_1.default.findById(req.body.userId)];
-            case 3:
-                currentUser = _a.sent();
-                if (!user.followers.includes(req.body.userId)) return [3 /*break*/, 6];
-                return [4 /*yield*/, user.updateOne({ $pull: { followers: req.body.userId } })];
-            case 4:
-                _a.sent();
-                return [4 /*yield*/, currentUser.updateOne({ $pull: { following: req.params.id } })];
-            case 5:
-                _a.sent();
-                res.send(200).json("User unfollowed");
-                return [3 /*break*/, 7];
-            case 6:
-                res.status(403).json("You are already don't follow this person");
-                _a.label = 7;
-            case 7: return [3 /*break*/, 9];
-            case 8:
-                err_7 = _a.sent();
-                res.status(500).json(err_7);
-                return [3 /*break*/, 9];
-            case 9: return [3 /*break*/, 11];
-            case 10:
-                res.status(403).json("Cannot follow self");
-                _a.label = 11;
-            case 11: return [2 /*return*/];
-        }
-    });
-}); });
+// router.put("/:id/unfollow", async (req, res) => {
+//     if (req.body.userId !== req.params.id) {
+//         try {
+//             const user = await User.findById(req.params.id);
+//             const currentUser = await User.findById(req.body.userId);
+//             if (user.followers.includes(req.body.userId)) {
+//                 await user.updateOne({$pull: {followers: req.body.userId}});
+//                 await currentUser.updateOne({$pull: {following: req.params.id}})
+//                 res.send(200).json("User unfollowed");
+//             } else {
+//                 res.status(403).json("You are already don't follow this person")
+//             }
+//         } catch (err) {
+//             res.status(500).json(err)
+//         }
+//     } else {
+//         res.status(403).json("Cannot follow self")
+//     }
+// });

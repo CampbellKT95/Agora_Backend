@@ -74,7 +74,6 @@ router.get("/find/:username", async (req, res) => {
     }
 });
 
-//follow user
 router.put("/:id/follow", async (req, res) => {
     if (req.body.userId !== req.params.id) {
         try {
@@ -85,10 +84,14 @@ router.put("/:id/follow", async (req, res) => {
                 await user.updateOne({$push: {followers: req.body.userId}});
                 await currentUser.updateOne({$push: {following: req.params.id}})
 
-                res.send(200).json("User followed");
+                res.status(200).json("User followed");
 
             } else {
-                res.status(403).json("You are already following this person")
+                await user.updateOne({$pull: {followers: req.body.userId}});
+                await currentUser.updateOne({$pull: {following: req.params.id}})
+
+                res.status(200).json("User unfollowed");
+
             }
 
         } catch (err) {
@@ -101,27 +104,27 @@ router.put("/:id/follow", async (req, res) => {
 });
 
 //unfollow user
-router.put("/:id/unfollow", async (req, res) => {
-    if (req.body.userId !== req.params.id) {
-        try {
-            const user = await User.findById(req.params.id);
-            const currentUser = await User.findById(req.body.userId);
+// router.put("/:id/unfollow", async (req, res) => {
+//     if (req.body.userId !== req.params.id) {
+//         try {
+//             const user = await User.findById(req.params.id);
+//             const currentUser = await User.findById(req.body.userId);
 
-            if (user.followers.includes(req.body.userId)) {
-                await user.updateOne({$pull: {followers: req.body.userId}});
-                await currentUser.updateOne({$pull: {following: req.params.id}})
+//             if (user.followers.includes(req.body.userId)) {
+//                 await user.updateOne({$pull: {followers: req.body.userId}});
+//                 await currentUser.updateOne({$pull: {following: req.params.id}})
 
-                res.send(200).json("User unfollowed");
+//                 res.send(200).json("User unfollowed");
 
-            } else {
-                res.status(403).json("You are already don't follow this person")
-            }
+//             } else {
+//                 res.status(403).json("You are already don't follow this person")
+//             }
 
-        } catch (err) {
-            res.status(500).json(err)
-        }
+//         } catch (err) {
+//             res.status(500).json(err)
+//         }
 
-    } else {
-        res.status(403).json("Cannot follow self")
-    }
-});
+//     } else {
+//         res.status(403).json("Cannot follow self")
+//     }
+// });
