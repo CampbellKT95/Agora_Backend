@@ -126,6 +126,7 @@ exports.router.get("/:id", function (req, res) { return __awaiter(void 0, void 0
         switch (_b.label) {
             case 0:
                 _b.trys.push([0, 2, , 3]);
+                console.log(req.params.id);
                 return [4 /*yield*/, user_1.default.findById({ _id: req.params.id })];
             case 1:
                 user = _b.sent();

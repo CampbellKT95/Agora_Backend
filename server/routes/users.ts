@@ -47,6 +47,7 @@ router.delete("/:id", async (req, res) => {
 //fetch user by id
 router.get("/:id", async (req, res) => {
     try {
+        console.log(req.params.id)
         const user = await User.findById({_id: req.params.id});
         const {password, updatedAt, ...others} = user._doc;
 
